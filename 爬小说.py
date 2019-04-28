@@ -40,14 +40,16 @@ def get_urls(url):
     return links
 
 def get_articles(links):
-    for link in links[0]:
+    for link in links[0:1]:
         article = requests.get(link)
         article.encoding = article.apparent_encoding
         html = article.text
         text =etree.HTML(html)
-        words = text.xpath('//div[@id="htmlContent"]')
-        print(words[0])
-
+        title = text.xpath('//div[@class="h1title"]/h1/text()')
+        print(title[0])
+        words = text.xpath('//div[@id="htmlContent"]/text()')
+        print(words)
+        print(len(words))
 if __name__ == '__main__':
     links = get_urls(url)
     get_articles(links)
